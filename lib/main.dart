@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutternew/view/home_page.dart';
 import 'package:get/get.dart';
-
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main (){
 
- runApp(Home());
+ runApp(ProviderScope(child: Home()));
 
 }
 
