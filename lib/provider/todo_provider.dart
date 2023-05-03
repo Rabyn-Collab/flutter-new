@@ -3,16 +3,7 @@ import 'package:flutternew/models/todo.dart';
 
 
 
-// class A {
-//   final int a;
-//   A(this.a);
-// }
-//
-// class B extends A{
-//   B(super.a);
-//
-// }
-// final b = B(90);
+
 
 List<Todo> todos = [
   Todo(dateTime: DateTime.now().toString(), label: 'reading a book'),
@@ -25,6 +16,24 @@ final todoProvider = StateNotifierProvider<TodoProvider, List<Todo>>((ref) => To
 
 class TodoProvider extends StateNotifier<List<Todo>>{
   TodoProvider(super.state);
+
+
+
+  void addTodo(Todo todo){
+     state = [...state, todo];
+  }
+
+  void removeTodo(Todo todo){
+   state.remove(todo);
+   state = [...state];
+  }
+
+
+  void updateTodo(){
+
+  }
+
+
 
 
 

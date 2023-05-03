@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main (){
 
+
  runApp(ProviderScope(child: Home()));
 
 }
@@ -21,7 +22,7 @@ class Home extends StatelessWidget {
       //   )
       // ),
    debugShowCheckedModeBanner: false,
-      home: Count(),
+      home: HomePage(),
     );
   }
 }
