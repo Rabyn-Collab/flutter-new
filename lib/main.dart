@@ -6,6 +6,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main (){
 
+List person = [
+  {'id': 1, 'title': 'hello'},
+  {'id': 2, 'title': 'welcome'},
+];
+
+final newPer ={'id': 1, 'title': 'hey'};
+// for(final m in person){
+//   print(m);
+// }
+
+person = [
+  for(final m in  person) m['id'] == 1 ? newPer : m
+];
+
+print(person);
+
 
  runApp(ProviderScope(child: Home()));
 
@@ -61,3 +77,5 @@ class Count extends StatelessWidget {
     );
   }
 }
+
+

@@ -29,8 +29,10 @@ class TodoProvider extends StateNotifier<List<Todo>>{
   }
 
 
-  void updateTodo(){
-
+  void updateTodo(Todo newTodo){
+    state = [
+      for(final t in state) t.dateTime == newTodo.dateTime ? newTodo : t
+    ];
   }
 
 
