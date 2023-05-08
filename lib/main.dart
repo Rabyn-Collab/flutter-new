@@ -51,26 +51,12 @@ Future getTopRated() async{
 
 
 void main () async {
- final data = await getNews();
- final data1 = await getTopRated();
- print(data1);
-   // getSome().then((value) => print(value)).catchError((err) => print(err));
+ // final data = await getNews();
+ // final data1 = await getTopRated();
+ // print(data1);
+ //   // getSome().then((value) => print(value)).catchError((err) => print(err));
 
-List person = [
-  {'id': 1, 'title': 'hello'},
-  {'id': 2, 'title': 'welcome'},
-];
 
-final newPer ={'id': 1, 'title': 'hey'};
-// for(final m in person){
-//   print(m);
-// }
-
-person = [
-  for(final m in  person) m['id'] == 1 ? newPer : m
-];
-
-print(person);
 
 
  runApp(ProviderScope(child: Home()));
@@ -82,11 +68,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  GetMaterialApp(
-      // theme: ThemeData(
-      //   appBarTheme: AppBarTheme(
-      //     backgroundColor: Colors.amber
-      //   )
-      // ),
+      theme: ThemeData.dark(),
    debugShowCheckedModeBanner: false,
       home: HomePage(),
     );
