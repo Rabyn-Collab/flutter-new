@@ -9,7 +9,7 @@ final String overview;
 final String poster_path;
 final String release_date;
 final String title;
-final double vote_average;
+final String vote_average;
 
 Movie({
   required this.id,
@@ -29,7 +29,7 @@ factory Movie.fromJson(Map<String, dynamic> json){
       poster_path: json['poster_path'],
       release_date: json['release_date'],
       title: json['title'],
-      vote_average: json['vote_average']
+      vote_average: json['vote_average'].toString()
   );
 }
 

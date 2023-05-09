@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutternew/view/tab_bar_widget.dart';
 
 
 
@@ -46,7 +47,7 @@ class HomePage extends StatelessWidget {
           body: TabBarView(
               physics: NeverScrollableScrollPhysics(),
               children: [
-            Center(child: Text('Hello Popular')),
+           TabBarWidget(),
             Center(child: Text('Hello Top')),
             Center(child: Text('Hello UpComing')),
           ])
