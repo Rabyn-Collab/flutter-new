@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutternew/models/movie_state.dart';
+import 'package:flutternew/view/search_page.dart';
 import 'package:flutternew/view/tab_bar_widget.dart';
+import 'package:get/get.dart';
 
 
 
@@ -20,7 +23,9 @@ class HomePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Movie Tmdb', style: TextStyle(fontSize: 20, color: Colors.amber),),
-                  IconButton(onPressed: (){}, icon: Icon(Icons.search, size: 25,))
+                  IconButton(onPressed: (){
+                    Get.to(() => SearchPage());
+                  }, icon: Icon(Icons.search, size: 25,))
                 ],
               ),
             ),
@@ -47,9 +52,9 @@ class HomePage extends StatelessWidget {
           body: TabBarView(
               physics: NeverScrollableScrollPhysics(),
               children: [
-           TabBarWidget(),
-            Center(child: Text('Hello Top')),
-            Center(child: Text('Hello UpComing')),
+           TabBarWidget(movieCategory: MovieCategory.popular),
+           TabBarWidget(movieCategory: MovieCategory.topRated),
+           TabBarWidget(movieCategory: MovieCategory.upcoming),
           ])
       ),
     );

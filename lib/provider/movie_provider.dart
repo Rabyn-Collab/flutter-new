@@ -5,9 +5,20 @@ import 'package:flutternew/services/movie_service.dart';
 
 
 
-final movieProvider = StateNotifierProvider<MovieProvider, MovieState>((ref) => MovieProvider(
+final popularProvider = StateNotifierProvider<MovieProvider, MovieState>((ref) => MovieProvider(
   MovieState(errText: '', isLoad: false, isError: false, isSuccess: false, movies: [], page: 1, api: Api.getPopular)
 ));
+
+
+final topRatedProvider = StateNotifierProvider<MovieProvider, MovieState>((ref) => MovieProvider(
+    MovieState(errText: '', isLoad: false, isError: false, isSuccess: false, movies: [], page: 1, api: Api.getTopRated)
+));
+
+
+final upcomingProvider = StateNotifierProvider<MovieProvider, MovieState>((ref) => MovieProvider(
+    MovieState(errText: '', isLoad: false, isError: false, isSuccess: false, movies: [], page: 1, api: Api.getUpcoming)
+));
+
 
 class MovieProvider extends StateNotifier<MovieState>{
   MovieProvider(super.state){
@@ -23,6 +34,8 @@ class MovieProvider extends StateNotifier<MovieState>{
             (r) => state = state.copyWith(isSuccess: true, isError: false, errText: '', isLoad: false, movies: r)
     );
   }
+
+
 
 
 }
