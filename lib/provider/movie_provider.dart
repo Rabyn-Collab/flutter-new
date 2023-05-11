@@ -6,17 +6,17 @@ import 'package:flutternew/services/movie_service.dart';
 
 
 final popularProvider = StateNotifierProvider<MovieProvider, MovieState>((ref) => MovieProvider(
-  MovieState(errText: '', isLoad: false, isError: false, isSuccess: false, movies: [], page: 1, api: Api.getPopular)
+  MovieState(errText: '', isLoad: false, isError: false, isSuccess: false, movies: [], page: 1, api: Api.getPopular, isLoadMore: false)
 ));
 
 
 final topRatedProvider = StateNotifierProvider<MovieProvider, MovieState>((ref) => MovieProvider(
-    MovieState(errText: '', isLoad: false, isError: false, isSuccess: false, movies: [], page: 1, api: Api.getTopRated)
+    MovieState(errText: '', isLoad: false, isError: false, isSuccess: false, movies: [], page: 1, api: Api.getTopRated, isLoadMore: false)
 ));
 
 
 final upcomingProvider = StateNotifierProvider<MovieProvider, MovieState>((ref) => MovieProvider(
-    MovieState(errText: '', isLoad: false, isError: false, isSuccess: false, movies: [], page: 1, api: Api.getUpcoming)
+    MovieState(errText: '', isLoad: false, isError: false, isSuccess: false, movies: [], page: 1, api: Api.getUpcoming, isLoadMore: false)
 ));
 
 
@@ -27,14 +27,21 @@ class MovieProvider extends StateNotifier<MovieState>{
 
 
   Future<void> getMovieByCategory()async{
-    state = state.copyWith(isLoad: true, isError: false, isSuccess: false);
+    state = state.copyWith(isLoad: state.isLoadMore ? false:  true, isError: false, isSuccess: false);
     final response = await MovieService.getMovieByCategory(apiPath: state.api, page: state.page);
     response.fold(
             (l) => state = state.copyWith(isSuccess: false, isError: true, errText: l, isLoad: false, movies: []),
-            (r) => state = state.copyWith(isSuccess: true, isError: false, errText: '', isLoad: false, movies: r)
+            (r) => state = state.copyWith(isSuccess: true, isError: false, errText: '', isLoad: false,
+                movies: [...state.movies, ...r]
+            )
     );
   }
 
+
+  Future<void> LoadMore()async{
+    state = state.copyWith(page: state.page + 1, isLoadMore: true);
+    getMovieByCategory();
+  }
 
 
 

@@ -51,6 +51,7 @@ Future getTopRated() async{
 
 
 void main () async {
+  await Future.delayed(Duration(milliseconds: 500));
  // final data = await getNews();
  // final data1 = await getTopRated();
  // print(data1);

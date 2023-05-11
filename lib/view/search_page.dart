@@ -46,6 +46,7 @@ final searchController = TextEditingController();
                               itemBuilder: (context, index){
                                 final movie = movieState.movies[index];
                                 return  CachedNetworkImage(
+                                  errorWidget: (c, s, d) => Image.asset('assets/images/movie.png'),
                                   placeholder: (context, url) => SpinKitFadingCube(
                                     color: Colors.pink,
                                     size: 50.0,

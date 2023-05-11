@@ -8,7 +8,7 @@ import '../models/movie_state.dart';
 import '../services/movie_service.dart';
 
 final searchProvider = StateNotifierProvider<MovieProvider, MovieState>((ref) => MovieProvider(
-    MovieState(errText: '', isLoad: false, isError: false, isSuccess: false, movies: [], page: 1, api: Api.searchMovie)
+    MovieState(errText: '', isLoad: false, isError: false, isSuccess: false, movies: [], page: 1, api: Api.searchMovie, isLoadMore: false)
 ));
 
 

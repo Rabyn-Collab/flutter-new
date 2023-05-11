@@ -16,6 +16,7 @@ class MovieState{
   final bool isSuccess;
   final int page;
   final String api;
+  final bool isLoadMore;
 
 
   MovieState({
@@ -26,6 +27,7 @@ class MovieState{
    required this.movies,
     required this.api,
     required this.page,
+    required this.isLoadMore
 });
 
 
@@ -36,7 +38,8 @@ class MovieState{
     String? errText,
     bool? isSuccess,
     int? page,
-    String? api
+    String? api,
+    bool? isLoadMore
 }){
     return MovieState(
         errText: errText ?? this.errText,
@@ -45,7 +48,8 @@ class MovieState{
         isSuccess: isSuccess ?? this.isSuccess,
         movies: movies ?? this.movies,
       api: api ?? this.api,
-      page: page ?? this.page
+      page: page ?? this.page,
+      isLoadMore: isLoadMore ?? this.isLoadMore
     );
   }
 
