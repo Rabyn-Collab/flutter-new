@@ -13,7 +13,7 @@ class VideoProvider {
 
  static Future<List<Video>> getVideoKey({required int id}) async{
      try{
-       final response = await dio.get(' https://api.themoviedb.org/3/movie/$id/videos', queryParameters: {
+       final response = await dio.get('https://api.themoviedb.org/3/movie/$id/videos', queryParameters: {
          'api_key': apiKey,
        });
        final data = (response.data['results'] as List).map((e) => Video.fromJson(e)).toList();

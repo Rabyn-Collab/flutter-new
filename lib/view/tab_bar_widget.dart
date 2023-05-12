@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutternew/models/movie.dart';
 import 'package:flutternew/models/movie_state.dart';
 import 'package:flutternew/provider/movie_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -52,7 +53,9 @@ class TabBarWidget extends StatelessWidget {
                       childAspectRatio: 2/3
                     ),
                     itemBuilder: (context, index){
+
                     final movie = movieState.movies[index];
+
                     return  InkWell(
                       onTap: (){
                         Get.to(() => DetailPage(movie));

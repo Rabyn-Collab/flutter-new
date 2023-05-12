@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutternew/provider/count_provider.dart';
@@ -51,6 +53,7 @@ Future getTopRated() async{
 
 
 void main () async {
+  final random = Random();
   await Future.delayed(Duration(milliseconds: 500));
  // final data = await getNews();
  // final data1 = await getTopRated();

@@ -16,14 +16,18 @@ DetailPage(this.movie);
         body: Consumer(
           builder: (context, ref, child) {
             final videoData =ref.watch(videoProvider(movie.id));
-            return Container(
-                child: videoData.when(
-                    data: (data){
-                      return PlayVideoFromNetwork(keys: data[0].key);
-                    },
-                    error: (err, stack) => Center(child: Text('$err')),
-                    loading: () => Container()
-                )
+            return ListView(
+              children: [
+                Container(
+                    child: videoData.when(
+                        data: (data){
+                          return PlayVideoFromNetwork(keys: data[0].key);
+                        },
+                        error: (err, stack) => Center(child: Text('$err')),
+                        loading: () => Container()
+                    )
+                ),
+              ],
             );
           }
         )
@@ -65,8 +69,6 @@ class _PlayVideoFromNetworkState extends State<PlayVideoFromNetwork> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: PodVideoPlayer(controller: controller),
-    );
+    return  PodVideoPlayer(controller: controller);
   }
 }

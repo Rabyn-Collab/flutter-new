@@ -2,6 +2,8 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutternew/models/movie.dart';
 
+import '../api_execption.dart';
+
 const apiKey = '2a0f926961d00c667e191a21c14461f8';
 
 class MovieService {
@@ -22,8 +24,7 @@ static final dio = Dio();
      final data = (response.data['results'] as List).map((e) => Movie.fromJson(e)).toList();
      return  Right(data);
      }on DioError  catch (err){
-       print(err);
-     return Left(err.toString());
+     return Left(DioException.getErrorText(err));
      }
 
   }
@@ -35,12 +36,16 @@ static Future<Either<String, List<Movie>>> getSearchMovie({required String apiPa
       'api_key': apiKey,
       'query': queryText
     });
+    if((response.data['results'] as List).isEmpty){
+      return Left('try using another keyword');
+    }else{
+      final data = (response.data['results'] as List).map((e) => Movie.fromJson(e)).toList();
+      return  Right(data);
+    }
 
-    final data = (response.data['results'] as List).map((e) => Movie.fromJson(e)).toList();
-    return  Right(data);
+
   }on DioError  catch (err){
-    print(err);
-    return Left(err.toString());
+    return Left(DioException.getErrorText(err));
   }
 
 }
