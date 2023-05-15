@@ -21,7 +21,9 @@ DetailPage(this.movie);
                 Container(
                     child: videoData.when(
                         data: (data){
-                          return PlayVideoFromNetwork(keys: data[0].key);
+                          return data.isEmpty ? Container(
+                              margin: EdgeInsets.only(top: 150),
+                              child: Center(child: Text('There is no video available'))) :PlayVideoFromNetwork(keys: data[0].key);
                         },
                         error: (err, stack) => Center(child: Text('$err')),
                         loading: () => Container()

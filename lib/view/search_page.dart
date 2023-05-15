@@ -15,6 +15,7 @@ final searchController = TextEditingController();
     return Consumer(
         builder: (context, ref, child) {
           final movieState =  ref.watch(searchProvider);
+          print(movieState.movies);
           return Scaffold(
               body: SafeArea(
                 child: Padding(

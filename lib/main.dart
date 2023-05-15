@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutternew/provider/count_provider.dart';
 import 'package:flutternew/view/home_page.dart';
+import 'package:flutternew/view/meal_page.dart';
 import 'package:get/get.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -74,7 +75,7 @@ class Home extends StatelessWidget {
     return  GetMaterialApp(
       theme: ThemeData.dark(),
    debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: MealPage(),
     );
   }
 }
