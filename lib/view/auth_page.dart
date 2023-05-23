@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutternew/constants/sizes.dart';
@@ -15,6 +16,8 @@ class AuthPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
+    print(FirebaseAuth.instance.currentUser);
+
     final isLogin = ref.watch(loginProvider);
     return Scaffold(
         body: SafeArea(
