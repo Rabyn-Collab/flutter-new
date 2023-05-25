@@ -1,7 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutternew/common/snack_show.dart';
 import 'package:flutternew/constants/sizes.dart';
+import 'package:flutternew/provider/auth_provider.dart';
 import 'package:flutternew/provider/common_provider.dart';
 
 
@@ -16,9 +19,18 @@ class AuthPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    print(FirebaseAuth.instance.currentUser);
+    ref.listen(authProvider, (previous, next) {
+        if(next.isError){
+          SnackShow.showFailure(context,next.errText);
+        }else if(next.isSuccess){
+          SnackShow.showSuccess(context, 'success');
+        }
+
+    });
 
     final isLogin = ref.watch(loginProvider);
+    final auth = ref.watch(authProvider);
+final image = ref.watch(imageProvider);
     return Scaffold(
         body: SafeArea(
           child: Form(
@@ -88,25 +100,60 @@ class AuthPage extends ConsumerWidget {
                    ),
                  ),
                   gapH20,
-                if(!isLogin)  Container(
-                    height: 100,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.white)
+                if(!isLogin)  InkWell(
+                  onTap: (){
+                    ref.read(imageProvider.notifier).pickUImage(true);
+                  },
+                  child: Container(
+                      height: 100,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.white)
+                      ),
+                      child: image == null ? Center(child: Text('Please select an image'))
+                    : Image.file(File(image.path)),
                     ),
-                    child: Center(child: Text('Please select an image')),
-                  ),
+                ),
                   gapH20,
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(vertical: 5)
+                    ),
                       onPressed: (){
+                      FocusScope.of(context).unfocus();
                         _form.currentState!.save();
                         if(_form.currentState!.validate()){
-                          passController.text.replaceAll(" ", "");
-                           print(mailController.text.trim());
-                           print(passController.text.trim().replaceAll(" ", " "));
+                          // passController.text.replaceAll(" ", "");
+                          //  print(mailController.text.trim());
+                          //  print(passController.text.trim().replaceAll(" ", " "));
+                          if(isLogin){
+                          ref.read(authProvider.notifier).userLogin(
+                          email: mailController.text.trim(),
+                          password: passController.text.trim()
+                          );
+                        }else{
+
+
+                            // if(image == null){
+                            //
+                            // }else{
+                            //   ref.read(authProvider.notifier).userSignUp(
+                            //       email: email,
+                            //       password: password,
+                            //       username: username,
+                            //       image: image
+                            //   );
+                            // }
+
+
+
+                          }
+
                         }
                       },
-                      child: Text(isLogin ? 'Login' :'Sign Up')),
+                      child: auth.isLoad ? Center(child: CircularProgressIndicator(
+                        color: Colors.white,
+                      )): Text( isLogin ? 'Login' :'Sign Up')),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
