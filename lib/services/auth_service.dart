@@ -26,8 +26,6 @@ static  Future<Either<String, bool>> userLogin(
 
     } on FirebaseAuthException catch (err) {
       return Left(err.message.toString());
-    } on FirebaseException catch(err){
-      return Left(err.message.toString());
     }
   }
 
@@ -69,6 +67,16 @@ static  Future<Either<String, bool>> userSignUp(
   }
 }
 
+
+static  Future<Either<String, bool>> userLogOut() async {
+  try {
+    final response = await auth.signOut();
+    return Right(true);
+
+  } on FirebaseAuthException catch (err) {
+    return Left(err.message.toString());
+  }
+}
 
 
 

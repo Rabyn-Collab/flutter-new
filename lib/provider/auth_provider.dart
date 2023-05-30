@@ -5,7 +5,8 @@ import 'package:image_picker/image_picker.dart';
 
 
 
-final authProvider = StateNotifierProvider<AuthProvider,CommonState>((ref) => AuthProvider(CommonState(
+final authProvider = StateNotifierProvider<AuthProvider,CommonState>((ref) => AuthProvider(
+    CommonState(
   isLoad: false,
   isSuccess: false,
   isError: false,
@@ -35,7 +36,8 @@ class AuthProvider extends StateNotifier<CommonState>{
         required XFile image
       }) async {
     state = state.copyWith(errText: '',isError: false, isSuccess: false, isLoad: true);
-    final response = await AuthService.userLogin(email: email, password: password);
+    final response = await AuthService.userSignUp(
+        email: email, password: password, username: username, image: image);
     response.fold((l) {
       state = state.copyWith(errText: l,isError: true, isSuccess: false, isLoad: false);
     }, (r) {
@@ -45,7 +47,15 @@ class AuthProvider extends StateNotifier<CommonState>{
 
 
 
-
+  Future<void> userLogOut() async {
+    state = state.copyWith(errText: '',isError: false, isSuccess: false, isLoad: true);
+    final response = await AuthService.userLogOut();
+    response.fold((l) {
+      state = state.copyWith(errText: l,isError: true, isSuccess: false, isLoad: false);
+    }, (r) {
+      state = state.copyWith(errText: '',isError: false, isSuccess: r, isLoad: false);
+    });
+  }
 
 
 
