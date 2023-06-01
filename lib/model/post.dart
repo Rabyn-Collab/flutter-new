@@ -29,7 +29,7 @@ class Like{
   factory Like.fromJson(Map<String,dynamic> json){
     return Like(
         likes: json['likes'],
-        username: json['username']
+        username: (json['usernames'] as List).map((e) => e as String).toList()
     );
   }
 }
@@ -51,6 +51,14 @@ class Comment{
         image: json['image'],
         comment: json['comment']
     );
+  }
+
+  Map toMap (){
+    return {
+      'username' : this.username,
+      'image': this.image,
+      'comment':this.comment
+    };
   }
 
 }

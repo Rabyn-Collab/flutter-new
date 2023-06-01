@@ -6,7 +6,7 @@ import 'package:flutternew/view/home_page.dart';
 
 
 
-final authStream = StreamProvider((ref) => FirebaseAuth.instance.authStateChanges());
+final authStream = StreamProvider.autoDispose((ref) => FirebaseAuth.instance.authStateChanges());
 
 class StatusPage extends StatelessWidget {
   const StatusPage({Key? key}) : super(key: key);

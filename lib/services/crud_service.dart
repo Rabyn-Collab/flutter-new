@@ -2,16 +2,37 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutternew/model/post.dart';
 import 'package:image_picker/image_picker.dart';
 
 
 
-
+final postsStream = StreamProvider((ref) => CrudService.getPosts());
 
 class CrudService {
 
 
   static  final postDb = FirebaseFirestore.instance.collection('posts');
+
+  static  Stream<List<Post>> getPosts(){
+    return  postDb.snapshots().map((event) {
+      return event.docs.map((e) {
+       final json = e.data();
+        return Post(
+            title: json['title'],
+            detail: json['detail'],
+            imageUrl: json['imageUrl'],
+            postId: e.id,
+            userId: json['userId'],
+            imageId: json['imageId'],
+            like: Like.fromJson(json['like']),
+            comments: (json['comments'] as List).map((e) => Comment.fromJson(e)).toList()
+        );
+      }).toList();
+    });
+  }
+
 
 
   static  Future<Either<String, bool>> addPost(
@@ -97,6 +118,49 @@ class CrudService {
 
       }
 
+
+      return Right(true);
+
+    }on FirebaseException catch(err){
+      return Left(err.message.toString());
+    }
+  }
+
+
+
+  static  Future<Either<String, bool>> likePost(
+      {
+        required String username,
+        required String postId,
+        required int like
+      }) async {
+    try {
+
+        await postDb.doc(postId).update({
+          'like':{
+            'likes': like + 1,
+            'usernames': FieldValue.arrayUnion([username])
+          },
+        });
+
+      return Right(true);
+
+    }on FirebaseException catch(err){
+      return Left(err.message.toString());
+    }
+  }
+
+
+  static  Future<Either<String, bool>> addComment(
+      {
+        required Comment comment,
+        required String postId,
+      }) async {
+    try {
+
+      await postDb.doc(postId).update({
+        'comments': FieldValue.arrayUnion([comment.toMap()])
+      });
 
       return Right(true);
 

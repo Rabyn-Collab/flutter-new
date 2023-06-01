@@ -3,6 +3,8 @@ import 'package:flutternew/model/common_state.dart';
 import 'package:flutternew/services/crud_service.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../model/post.dart';
+
 
 final crudProvider = StateNotifierProvider<CrudProvider,CommonState>((ref) => CrudProvider(
     CommonState(
@@ -75,8 +77,36 @@ class CrudProvider extends StateNotifier<CommonState>{
   }
 
 
+    Future<void> likePost(
+      {
+        required String username,
+        required String postId,
+        required int like
+      }) async {
+      state = state.copyWith(errText: '',isError: false, isSuccess: false, isLoad: true);
+      final response = await CrudService.likePost(username: username, postId: postId, like: like);
+      response.fold((l) {
+        state = state.copyWith(errText: l,isError: true, isSuccess: false, isLoad: false);
+      }, (r) {
+        state = state.copyWith(errText: '',isError: false, isSuccess: r, isLoad: false);
+      });
+    }
 
 
+
+   Future<void> addComment(
+      {
+        required Comment comment,
+        required String postId,
+      }) async {
+     state = state.copyWith(errText: '',isError: false, isSuccess: false, isLoad: true);
+     final response = await CrudService.addComment(comment: comment, postId: postId);
+     response.fold((l) {
+       state = state.copyWith(errText: l,isError: true, isSuccess: false, isLoad: false);
+     }, (r) {
+       state = state.copyWith(errText: '',isError: false, isSuccess: r, isLoad: false);
+     });
+   }
 
 
 
