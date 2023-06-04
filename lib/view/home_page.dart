@@ -6,10 +6,13 @@ import 'package:flutternew/provider/auth_provider.dart';
 import 'package:flutternew/provider/crud_provider.dart';
 import 'package:flutternew/services/crud_service.dart';
 import 'package:flutternew/view/create_post.dart';
+import 'package:flutternew/view/update_page.dart';
+import 'package:flutternew/view/user_page.dart';
 import 'package:get/get.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import '../constants/sizes.dart';
 import '../services/auth_service.dart';
+import 'detail_page.dart';
 
 class HomePage extends ConsumerWidget {
 
@@ -79,19 +82,24 @@ late types.User user;
                         scrollDirection: Axis.horizontal,
                         itemCount: data.length,
                         itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 10),
-                            child: Column(
-                              children: [
-                                CircleAvatar(
-                                  radius: 50,
-                                  backgroundImage:
-                                      NetworkImage(data[index].imageUrl!),
-                                ),
-                                gapH10,
-                                Text(data[index].firstName!)
-                              ],
+                          return InkWell(
+                            onTap: (){
+                              Get.to(() => UserPage(data[index]));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 10),
+                              child: Column(
+                                children: [
+                                  CircleAvatar(
+                                    radius: 50,
+                                    backgroundImage:
+                                        NetworkImage(data[index].imageUrl!),
+                                  ),
+                                  gapH10,
+                                  Text(data[index].firstName!)
+                                ],
+                              ),
                             ),
                           );
                         });
@@ -115,12 +123,51 @@ late types.User user;
                                   children: [
                                     Expanded(child: Text(data[index].title)),
                                     if(authData!.uid == data[index].userId) IconButton(
-                                        onPressed: (){}, icon: Icon(Icons.more_horiz_outlined))
+                                        onPressed: (){
+                                          Get.defaultDialog(
+                                            title: "Update",
+                                            content: Text('Customize post'),
+                                            actions: [
+                                              IconButton(onPressed: (){
+                                                Navigator.of(context).pop();
+                                                Get.to(() => UpdatePage(data[index]));
+                                              }, icon: Icon(Icons.edit)),
+                                              IconButton(onPressed: (){
+                                                Navigator.of(context).pop();
+                                                Get.defaultDialog(
+                                                    title: "Hold On",
+                                                    content: Text('Are you sure'),
+                                                    actions: [
+                                                      TextButton(onPressed: (){
+                                                        Navigator.of(context).pop();
+                                                        ref.read(crudProvider.notifier).removePost(
+                                                            postId: data[index].postId,
+                                                            imageId: data[index].imageId
+                                                        );
+                                                      }, child: Text('Yes')),
+                                                      TextButton(onPressed: (){
+                                                        Navigator.of(context).pop();
+                                                      }, child: Text('No')),
+
+                                                    ]
+                                                );
+
+
+
+                                              }, icon: Icon(Icons.delete)),
+                                            ]
+                                          );
+                                        }, icon: Icon(Icons.more_horiz_outlined))
                                   ],
                                 ),
-                                Container(
-                                    height: 300,
-                                    child: Image.network(data[index].imageUrl)),
+                                InkWell(
+                                  onTap: (){
+                                    Get.to(() => DetailPage(data[index], user));
+                                  },
+                                  child: Container(
+                                      height: 300,
+                                      child: Image.network(data[index].imageUrl)),
+                                ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
