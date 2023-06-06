@@ -41,8 +41,15 @@ static  Stream<types.User> getUser(){
 static  Future<Either<String, bool>> userLogin(
       {required String email, required String password}) async {
     try {
+      final token = await FirebaseMessaging.instance.getToken();
       final response = await auth.signInWithEmailAndPassword(
           email: email, password: password);
+      await userDb.doc(response.user!.uid).update({
+        'metadata': {
+          'email': email,
+          'token': token
+        }
+      });
       return Right(true);
 
     } on FirebaseAuthException catch (err) {

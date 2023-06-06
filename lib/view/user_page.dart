@@ -43,8 +43,10 @@ UserPage(this.user);
                         ElevatedButton(
                             onPressed: () async{
                           final response = await ref.read(roomProvider).createRoom(user);
+
                           if(response != null){
-                            Get.to(() => ChatPage(response, user));
+                            final currentUser = response.users.firstWhere((element) => element.id == FirebaseAuth.instance.currentUser!.uid);
+                            Get.to(() => ChatPage(response, user.metadata!['token'], currentUser.firstName!));
                           }
                         }, child: Text('Start Chat'))
                       ],
